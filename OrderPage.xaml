@@ -1,0 +1,31 @@
+﻿<Page x:Class="CarsShowroom.OrderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarsShowroom"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="OrderPage" Loaded="Page_Loaded">
+
+    <Grid>
+        <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Заказы</TextBlock>
+        <ComboBox x:Name="carBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <ComboBox x:Name="employeeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
+        <CheckBox x:Name="idCarCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,51,0" FontSize="25" IsChecked="True" Width="166" Click="idCarCheck_Click">Автомобиль</CheckBox>
+        <CheckBox x:Name="idEmployeeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,76,0" FontSize="25"  IsChecked="True" Click="idEmployeeCheck_Click">Сотрудник</CheckBox>
+        <CheckBox x:Name="dateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,76,0" FontSize="25"  IsChecked="True" Width="142" Click="dateCheck_Click">Дата</CheckBox>
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Delete">Удалить</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

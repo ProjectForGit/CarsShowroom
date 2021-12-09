@@ -1,0 +1,33 @@
+﻿<Page x:Class="CarsShowroom.Type_MaintenacePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarsShowroom"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="Type_MaintenacePage">
+
+    <Grid>
+        <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Виды ТО</TextBlock>
+        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></TextBox>
+        <TextBox x:Name="costTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></TextBox>
+        <TextBox x:Name="durationTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></TextBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
+
+        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Click="nameCheck_Click" Width="170">Название</CheckBox>
+        <CheckBox x:Name="costCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,52,0" FontSize="25"  IsChecked="True" Click="costCheck_Click" Width="178">Стоимость</CheckBox>
+        <CheckBox x:Name="durationCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,52,0" FontSize="25"  IsChecked="True" Click="durationCheck_Click">Длительность</CheckBox>
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Delete">Удалить</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

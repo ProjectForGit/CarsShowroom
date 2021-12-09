@@ -1,0 +1,34 @@
+﻿<Page x:Class="CarsShowroom.VacationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarsShowroom"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="VacationPage" Loaded="Page_Loaded">
+
+    <Grid>
+        <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Отпуска</TextBlock>
+        <TextBox x:Name="durationTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></TextBox>
+        <ComboBox x:Name="employeeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <ComboBox x:Name="vacationTypeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="vacationSalary" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="820,200,0,0" FontSize="25" Width="200"></TextBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
+        <CheckBox x:Name="durationCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Width="196" Click="durationCheck_Click">Длительность</CheckBox>
+        <CheckBox x:Name="idEmployeeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,85,0" FontSize="25"  IsChecked="True" Width="170" Click="idEmployeeCheck_Click">Сотрудник</CheckBox>
+        <CheckBox x:Name="idVacationTypeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,8,0" FontSize="25"  IsChecked="True" Width="247" Click="idVacationTypeCheck_Click">Тип отпуска</CheckBox>
+        <CheckBox x:Name="vacationSalaryCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,8,0" FontSize="25"  IsChecked="True" Click="vacationSalaryCheck_Click">Отпускная зарплата</CheckBox>
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Delete">Удалить</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
