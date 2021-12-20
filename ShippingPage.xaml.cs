@@ -49,6 +49,13 @@ namespace CarsShowroom
 
             Items = JsonConvert.DeserializeObject<List<Classes.Shipping>>(jsonString);
             dataGrid.ItemsSource = Items;
+            foreach (var item in Items)
+            {
+                item.PropertyChanged += delegate
+                {
+                    PUT(item);
+                };
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -97,85 +104,134 @@ namespace CarsShowroom
             shipDate.SelectedDate = DateTime.Now;
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void PUT(Shipping shipping)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Shippings"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            string accessoryTxt = accessoryBox.SelectedItem.ToString();
-            int idAccessory = 0;
-            foreach (var item in Accessories)
+            try
             {
-                if (item.Name == accessoryTxt)
+                int id = Items[dataGrid.SelectedIndex].IdShipping;
+
+
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Shippings/" + id));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "PUT";
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
                 {
-                    idAccessory = item.AccessoryId;
+                    string json = JsonConvert.SerializeObject(shipping);
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
                 }
             }
-
-            Shipping shipping = new Shipping
+            catch
             {
-                Name = nameTxt.Text,
-                OrderDate = orderDate.SelectedDate.Value,
-                ShipDate = shipDate.SelectedDate.Value,
-                AccessoryId = idAccessory
-            };
-            Items.Add(shipping);
 
-
-
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(shipping);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-
-            Get();
         }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validation() == true)
+            {
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Shippings"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                string accessoryTxt = accessoryBox.SelectedItem.ToString();
+                int idAccessory = 0;
+                foreach (var item in Accessories)
+                {
+                    if (item.Name == accessoryTxt)
+                    {
+                        idAccessory = item.AccessoryId;
+                    }
+                }
+
+                Shipping shipping = new Shipping
+                {
+                    Name = nameTxt.Text,
+                    OrderDate = orderDate.SelectedDate.Value,
+                    ShipDate = shipDate.SelectedDate.Value,
+                    AccessoryId = idAccessory
+                };
+                Items.Add(shipping);
+
+
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(shipping);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
+            }
+        }
+        private bool Validation()
+        {
+            bool valid = true;
+            if (nameTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
+            }
+
+            return valid;
+        }
+
 
         private void nameCheck_Click(object sender, RoutedEventArgs e)
         {
             if (nameCheck.IsChecked == false)
-                dataGrid.Columns[2].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[2].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void orderDateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (orderDateCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void shipDateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (shipDateCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
 
         private void idAccessoryCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idAccessoryCheck.IsChecked == false)
-                dataGrid.Columns[5].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[5].Visibility = Visibility.Visible;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Visible;
         }
     }
 }

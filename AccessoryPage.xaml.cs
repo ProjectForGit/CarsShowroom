@@ -28,6 +28,7 @@ namespace CarsShowroom
             InitializeComponent();
             Get();
             GetColorBox();
+            ((MainWindow)System.Windows.Application.Current.MainWindow).exitIcon.Visibility = Visibility.Visible;
         }
 
         private void Get()
@@ -48,6 +49,13 @@ namespace CarsShowroom
 
             Items = JsonConvert.DeserializeObject<List<Classes.Accessory>>(jsonString);
             dataGrid.ItemsSource = Items;
+            foreach (var item in Items)
+            {
+                item.PropertyChanged += delegate
+                {
+                    PUT(item);
+                };
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -93,85 +101,134 @@ namespace CarsShowroom
             colorBox.SelectedIndex = 0;
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void PUT(Accessory accessory)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Accessories"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            string colorTxt = colorBox.SelectedItem.ToString();
-            int idColor = 0;
-            foreach (var item in Colors)
+            try
             {
-                if (item.Name == colorTxt)
+                int id = Items[dataGrid.SelectedIndex].AccessoryId;
+
+
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Accessories/" + id));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "PUT";
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
                 {
-                    idColor = item.ColorId;
+                    string json = JsonConvert.SerializeObject(accessory);
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
                 }
             }
-
-            Accessory accessory = new Accessory
+            catch
             {
-                Name = nameTxt.Text,
-                Value = int.Parse(valueTxt.Text),
-                Cost = int.Parse(costTxt.Text),
-                ColorId = idColor
-            };
-            Items.Add(accessory);
 
-
-
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(accessory);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validation() == true)
             {
-                var result = streamReader.ReadToEnd();
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Accessories"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                string colorTxt = colorBox.SelectedItem.ToString();
+                int idColor = 0;
+                foreach (var item in Colors)
+                {
+                    if (item.Name == colorTxt)
+                    {
+                        idColor = item.ColorId;
+                    }
+                }
+
+                Accessory accessory = new Accessory
+                {
+                    Name = nameTxt.Text,
+                    Value = int.Parse(valueTxt.Text),
+                    Cost = int.Parse(costTxt.Text),
+                    ColorId = idColor
+                };
+                Items.Add(accessory);
+
+
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(accessory);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
+            }
+        }
+
+        private bool Validation()
+        {
+            bool valid = true;
+            if (nameTxt.Text == "" || valueTxt.Text == "" || costTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)) || !valueTxt.Text.ToCharArray().All(x => Char.IsDigit(x)) || !costTxt.Text.ToCharArray().All(x => Char.IsDigit(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
             }
 
-            Get();
+            return valid;
         }
 
         private void nameCheck_Click(object sender, RoutedEventArgs e)
         {
             if (nameCheck.IsChecked == false)
-                dataGrid.Columns[2].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[2].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void valueCheck_Click(object sender, RoutedEventArgs e)
         {
             if (valueCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void costCheck_Click(object sender, RoutedEventArgs e)
         {
             if (costCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
 
         private void idColorCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idColorCheck.IsChecked == false)
-                dataGrid.Columns[5].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[5].Visibility = Visibility.Visible;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Visible;
         }
     }
 }

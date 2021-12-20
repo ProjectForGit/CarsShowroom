@@ -3,39 +3,53 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:CarsShowroom"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="CarPage" Loaded="Page_Loaded">
+      Title="CarPage">
 
     <Grid>
         <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Автомобили</TextBlock>
-        <ComboBox x:Name="markBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></TextBox>
-        <ComboBox x:Name="typeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="costTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="820,200,0,0" FontSize="25" Width="200"></TextBox>
-        <DatePicker x:Name="yearDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1040,200,0,0" FontSize="25" Width="200"></DatePicker>
+        <ComboBox x:Name="markBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="60,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Название" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <ComboBox x:Name="typeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="540,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="costTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="780,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Стоимость" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <DatePicker x:Name="yearDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1020,200,0,0" FontSize="25" Width="200"></DatePicker>
         <ComboBox x:Name="colorBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1260,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="gearboxTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1480,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="maxSpeedTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,300,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="weightTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,300,0,0" FontSize="25" Width="200"></TextBox>
-        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,300,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
+        <TextBox x:Name="gearboxTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1500,200,0,0" FontSize="25" Width="210" materialDesign:HintAssist.Hint="Коробка передач" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="maxSpeedTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="60,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Макс. скорость" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="weightTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Масса" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="540,300,0,0" FontSize="25" Click="Add_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Добавить</Button>
+        <Button x:Name="diagramButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="740,300,0,0" FontSize="25" Click="diagramButton_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Диаграмма</Button>
 
-        <CheckBox x:Name="idMarkCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Click="idMarkCheck_Click" Width="173">Марка</CheckBox>
-        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,85,0" FontSize="25"  IsChecked="True" Click="nameCheck_Click" Width="149">Название</CheckBox>
-        <CheckBox x:Name="idTypeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,85,0" FontSize="25"  IsChecked="True" Click="idTypeCheck_Click" Width="149">Тик кузова</CheckBox>
-        <CheckBox x:Name="costCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,85,0" FontSize="25"  IsChecked="True" Click="CostCheck_Click" Width="149">Стоимость</CheckBox>
-        <CheckBox x:Name="yearCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,33,0" FontSize="25"  IsChecked="True" Click="yearCheck_Click" Width="201">Год выпуска</CheckBox>
-        <CheckBox x:Name="idColorCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,600,85,0" FontSize="25"  IsChecked="True" Click="idColorCheck_Click" Width="148">Цвет</CheckBox>
-        <CheckBox x:Name="gearboxCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,650,8,0" FontSize="25"  IsChecked="True" Click="gearboxCheck_Click" Width="227">Коробка передач</CheckBox>
-        <CheckBox x:Name="maxSpeedCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,700,41,0" FontSize="25"  IsChecked="True" Click="maxSpeedCheck_Click">Макс. скорость</CheckBox>
-        <CheckBox x:Name="weightCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,750,41,0" FontSize="25"  IsChecked="True" Click="weightCheck_Click" Width="194">Масса</CheckBox>
-        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+        <CheckBox x:Name="idMarkCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Click="idMarkCheck_Click" Width="173" Background="#3943B7">Марка</CheckBox>
+        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,85,0" FontSize="25"  IsChecked="True" Click="nameCheck_Click" Width="149" Background="#3943B7">Название</CheckBox>
+        <CheckBox x:Name="idTypeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,85,0" FontSize="25"  IsChecked="True" Click="idTypeCheck_Click" Width="149" Background="#3943B7">Тик кузова</CheckBox>
+        <CheckBox x:Name="costCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,85,0" FontSize="25"  IsChecked="True" Click="CostCheck_Click" Width="149" Background="#3943B7">Стоимость</CheckBox>
+        <CheckBox x:Name="yearCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,33,0" FontSize="25"  IsChecked="True" Click="yearCheck_Click" Width="201" Background="#3943B7">Год выпуска</CheckBox>
+        <CheckBox x:Name="idColorCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,600,85,0" FontSize="25"  IsChecked="True" Click="idColorCheck_Click" Width="148" Background="#3943B7">Цвет</CheckBox>
+        <CheckBox x:Name="gearboxCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,650,8,0" FontSize="25"  IsChecked="True" Click="gearboxCheck_Click" Width="227" Background="#3943B7">Коробка передач</CheckBox>
+        <CheckBox x:Name="maxSpeedCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,700,41,0" FontSize="25"  IsChecked="True" Click="maxSpeedCheck_Click" Background="#3943B7">Макс. скорость</CheckBox>
+        <CheckBox x:Name="weightCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,750,41,0" FontSize="25"  IsChecked="True" Click="weightCheck_Click" Width="194" Background="#3943B7">Масса</CheckBox>
+        <Button x:Name="restoreButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1465,300,0,0" FontSize="25" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Восстановить</Button>
+
+
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="600" Margin="0,350,200,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Марка" Binding="{Binding Mark}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Тип кузова" Binding="{Binding Type}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Cost}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Цвет" Binding="{Binding Color}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Коробка передач" Binding="{Binding Gearbox}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Максимальная скорость" Binding="{Binding MaxSpeed}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Масса" Binding="{Binding Weight}"></DataGridTextColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="Delete">Удалить</Button>
+                            <Button Click="Delete" Background="Red" BorderBrush="Red" Opacity=".5">Удалить</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

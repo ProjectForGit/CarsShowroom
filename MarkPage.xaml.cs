@@ -77,33 +77,36 @@ namespace CarsShowroom
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Marks/"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            Mark mark = new Mark
+            if (Validation() == true)
             {
-                Name = nameTxt.Text,
-            };
-            Items.Add(mark);
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Marks/"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                Mark mark = new Mark
+                {
+                    Name = nameTxt.Text,
+                };
+                Items.Add(mark);
 
 
 
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(mark);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(mark);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-
-            Get();
         }
 
         private void PUT(Mark mark)
@@ -134,6 +137,27 @@ namespace CarsShowroom
             {
 
             }
+        }
+
+        private bool Validation()
+        {
+            bool valid = true;
+            if (nameTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
+            }
+
+            return valid;
         }
 
     }

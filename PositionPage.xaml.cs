@@ -24,6 +24,7 @@ namespace CarsShowroom
     public partial class PositionPage : Page
     {
         private List<Position> Items;
+        private List<Position> DeletedItems = new List<Position>();
         public PositionPage()
         {
             InitializeComponent();
@@ -61,6 +62,7 @@ namespace CarsShowroom
             try
             {
                 int id = Items[dataGrid.SelectedIndex].PositionId;
+                DeletedItems.Add(Items[dataGrid.SelectedIndex]);
 
                 HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Positions/" + id));
                 WebReq.Method = "DELETE";
@@ -76,34 +78,37 @@ namespace CarsShowroom
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Positions"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            Position position = new Position
+            if (Validation() == true)
             {
-                Name = nameTxt.Text,
-                Salary = int.Parse(salaryTxt.Text)
-            };
-            Items.Add(position);
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Positions"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                Position position = new Position
+                {
+                    Name = nameTxt.Text,
+                    Salary = int.Parse(salaryTxt.Text)
+                };
+                Items.Add(position);
 
 
 
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(position);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(position);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-
-            Get();
         }
 
         private void PUT(Position position)
@@ -136,25 +141,83 @@ namespace CarsShowroom
             }
         }
 
-        private void Filter_Click(object sender, RoutedEventArgs e)
+        private bool Validation()
         {
-            MainWindow.MainFrameInstance.Navigate(new FilterPage());
+            bool valid = true;
+            if (nameTxt.Text == "" || salaryTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)) || !salaryTxt.Text.ToCharArray().All(x => Char.IsDigit(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
+            }
+
+            return valid;
         }
 
         private void nameCheck_Click(object sender, RoutedEventArgs e)
         {
             if (nameCheck.IsChecked == false)
-                dataGrid.Columns[2].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[2].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void salaryCheck_Click(object sender, RoutedEventArgs e)
         {
             if (salaryCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
+        }
+
+        private void restoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Positions"));
+            WebReq.ContentType = "application/json; charset=utf-8";
+            WebReq.Accept = "application/json; charset=utf-8";
+            WebReq.Method = "POST";
+
+            foreach (var item in DeletedItems)
+            {
+                try
+                {
+                    Position position = new Position
+                    {
+                        Name = item.Name,
+                        Salary = item.Salary
+                    };
+                    Items.Add(position);
+
+
+
+                    using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                    {
+                        string json = JsonConvert.SerializeObject(position);
+                        streamWriter.Write(json);
+                        //streamWriter.Flush();
+                        //streamWriter.Close();
+                    }
+                    var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result = streamReader.ReadToEnd();
+                    }
+                }
+                catch 
+                {
+                }
+            }
+
+            Get();
+            DeletedItems.Clear();
         }
     }
 }

@@ -3,45 +3,61 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:CarsShowroom"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="MainPage" Loaded="Page_Loaded">
+      Title="MainPage">
 
     <Grid>
         <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Сотрудники</TextBlock>
-        <TextBox x:Name="surnameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="patronymicTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></TextBox>
-        <ComboBox x:Name="positionBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="820,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="loginTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1040,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="passwordTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1260,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="innTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1480,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="phoneNumberTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,300,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="emailTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,300,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="passportSeriesTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="600,300,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="passportNumberTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="820,300,0,0" FontSize="25" Width="200"></TextBox>
-        <ComboBox x:Name="roleBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1040,300,0,0" FontSize="25" Width="200">        </ComboBox>
+        <TextBox x:Name="surnameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="60,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Фамилия" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7">
+        </TextBox>
+        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Имя" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="patronymicTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="540,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Отчество" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <ComboBox x:Name="positionBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="780,200,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="loginTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1020,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Логин" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="passwordTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1260,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Пароль" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="innTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1500,200,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="ИНН" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="phoneNumberTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="60,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Номер телефона" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="emailTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Почта" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="passportSeriesTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="540,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Серия паспорта" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="passportNumberTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="780,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Номер паспорта" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <ComboBox x:Name="roleBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1040,300,0,0" FontSize="25" Width="200"></ComboBox>
+        <Button x:Name="restoreButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1465,300,0,0" FontSize="25" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Восстановить</Button>
 
-        <CheckBox x:Name="surnameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Width="186" Click="surnameCheck_Click">Фамилия</CheckBox>
-        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,85,0" FontSize="25"  IsChecked="True" Width="161" Click="nameCheck_Click">Имя</CheckBox>
-        <CheckBox x:Name="patronymicCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,85,0" FontSize="25"  IsChecked="True" Width="161" Click="patronymicCheck_Click">Отчество</CheckBox>
-        <CheckBox x:Name="idPositionCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,85,0" FontSize="25"  IsChecked="True" Width="161" Click="idPositionCheck_Click">Должность</CheckBox>
-        <CheckBox x:Name="loginCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,85,0" FontSize="25"  IsChecked="True" Width="162" Click="loginCheck_Click">Логин</CheckBox>
-        <CheckBox x:Name="passwordCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,600,85,0" FontSize="25"  IsChecked="True" Width="162" Click="passwordCheck_Click">Пароль</CheckBox>
-        <CheckBox x:Name="innCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,650,85,0" FontSize="25"  IsChecked="True" Width="161" Click="innCheck_Click">ИНН</CheckBox>
-        <CheckBox x:Name="phoneNumberCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,700,28,0" FontSize="25"  IsChecked="True" Width="220" Click="phoneNumberCheck_Click">Номер телефона</CheckBox>
-        <CheckBox x:Name="emailCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,750,85,0" FontSize="25"  IsChecked="True" Width="161" Click="emailCheck_Click">Почта</CheckBox>
-        <CheckBox x:Name="passportSeriesCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,798,38,0" FontSize="25"  IsChecked="True" Click="passportSeriesCheck_Click">Номер паспорта</CheckBox>
-        <CheckBox x:Name="passportNumberCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,848,38,0" FontSize="25"  IsChecked="True" Width="209" Click="passportNumberCheck_Click">Серия паспорта</CheckBox>
+        <CheckBox x:Name="surnameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Width="186" Click="surnameCheck_Click" Background="#3943B7">Фамилия</CheckBox>
+        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,85,0" FontSize="25"  IsChecked="True" Width="161" Click="nameCheck_Click" Background="#3943B7">Имя</CheckBox>
+        <CheckBox x:Name="patronymicCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,85,0" FontSize="25"  IsChecked="True" Width="161" Click="patronymicCheck_Click" Background="#3943B7">Отчество</CheckBox>
+        <CheckBox x:Name="idPositionCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,85,0" FontSize="25"  IsChecked="True" Width="161" Click="idPositionCheck_Click" Background="#3943B7">Должность</CheckBox>
+        <CheckBox x:Name="loginCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,85,0" FontSize="25"  IsChecked="True" Width="162" Click="loginCheck_Click" Background="#3943B7">Логин</CheckBox>
+        <CheckBox x:Name="passwordCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,600,85,0" FontSize="25"  IsChecked="True" Width="162" Click="passwordCheck_Click" Background="#3943B7">Пароль</CheckBox>
+        <CheckBox x:Name="innCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,650,85,0" FontSize="25"  IsChecked="True" Width="161" Click="innCheck_Click" Background="#3943B7">ИНН</CheckBox>
+        <CheckBox x:Name="phoneNumberCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,700,28,0" FontSize="25"  IsChecked="True" Width="220" Click="phoneNumberCheck_Click" Background="#3943B7">Номер телефона</CheckBox>
+        <CheckBox x:Name="emailCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,750,85,0" FontSize="25"  IsChecked="True" Width="161" Click="emailCheck_Click" Background="#3943B7">Почта</CheckBox>
+        <CheckBox x:Name="passportSeriesCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,800,38,0" FontSize="25"  IsChecked="True" Click="passportSeriesCheck_Click" Background="#3943B7">Номер паспорта</CheckBox>
+        <CheckBox x:Name="passportNumberCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,850,38,0" FontSize="25"  IsChecked="True" Width="209" Click="passportNumberCheck_Click" Background="#3943B7">Серия паспорта</CheckBox>
+        <CheckBox x:Name="roleCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,900,38,0" FontSize="25"  IsChecked="True" Width="209" Click="roleCheck_Click" Background="#3943B7">Роль</CheckBox>
 
-        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1260,300,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
-        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1280,300,0,0" FontSize="25" Click="Add_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Добавить</Button>
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="600" Margin="0,350,200,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Логин" Binding="{Binding Login}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пароль" Binding="{Binding Password}"></DataGridTextColumn>
+                <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер телефона" Binding="{Binding PhoneNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Почта" Binding="{Binding Email}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Серия паспорта" Binding="{Binding PassportSeries}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding PassportNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Роль" Binding="{Binding Role}"></DataGridTextColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="Delete">Удалить</Button>
+                            <Button Click="Delete" Background="Red" BorderBrush="Red" Opacity=".5">Удалить</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -1,30 +1,37 @@
 ﻿<Page x:Class="CarsShowroom.ShippingPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CarsShowroom"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="ShippingPage" Loaded="Page_Loaded">
+      Title="ShippingPage">
 
     <Grid>
         <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Доставка</TextBlock>
-        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></TextBox>
-        <DatePicker x:Name="orderDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></DatePicker>
-        <DatePicker x:Name="shipDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></DatePicker>
-        <ComboBox x:Name="accessoryBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="820,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
-        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,4,0" FontSize="25" IsChecked="True" Click="nameCheck_Click" Width="235">Название</CheckBox>
-        <CheckBox x:Name="orderDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,29,0" FontSize="25"  IsChecked="True" Click="orderDateCheck_Click" Width="210">Дата заказа</CheckBox>
-        <CheckBox x:Name="shipDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,29,0" FontSize="25"  IsChecked="True" Click="shipDateCheck_Click" Width="211">Дата поставки</CheckBox>
-        <CheckBox x:Name="idAccessoryCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,29,0" FontSize="25"  IsChecked="True" Click="idAccessoryCheck_Click">Комплектующие</CheckBox>
-        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="60,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Название" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <DatePicker x:Name="orderDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300,300,0,0" FontSize="25" Width="200"></DatePicker>
+        <DatePicker x:Name="shipDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="540,300,0,0" FontSize="25" Width="200"></DatePicker>
+        <ComboBox x:Name="accessoryBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="780,300,0,0" FontSize="25" Width="200"></ComboBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1020,300,0,0" FontSize="25" Click="Add_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Добавить</Button>
+        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,4,0" FontSize="25" IsChecked="True" Click="nameCheck_Click" Width="235" Background="#3943B7">Название</CheckBox>
+        <CheckBox x:Name="orderDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,29,0" FontSize="25"  IsChecked="True" Click="orderDateCheck_Click" Width="210" Background="#3943B7">Дата заказа</CheckBox>
+        <CheckBox x:Name="shipDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,29,0" FontSize="25"  IsChecked="True" Click="shipDateCheck_Click" Width="211" Background="#3943B7">Дата поставки</CheckBox>
+        <CheckBox x:Name="idAccessoryCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,29,0" FontSize="25"  IsChecked="True" Click="idAccessoryCheck_Click" Background="#3943B7">Комплектующие</CheckBox>
+        <Button x:Name="restoreButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1465,300,0,0" FontSize="25" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Восстановить</Button>
+
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="600" Margin="0,350,200,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding OrderDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата поставки" Binding="{Binding ShipDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Комплектующие" Binding="{Binding Accessory}"></DataGridTextColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="Delete">Удалить</Button>
+                            <Button Click="Delete" Background="Red" BorderBrush="Red" Opacity=".5">Удалить</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

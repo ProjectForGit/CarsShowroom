@@ -36,6 +36,7 @@ namespace CarsShowroom
             GetRepairBox();
             GetEmployeeBox();
             Get();
+            ((MainWindow)System.Windows.Application.Current.MainWindow).exitIcon.Visibility = Visibility.Visible;
         }
 
         private void Get()
@@ -121,7 +122,7 @@ namespace CarsShowroom
 
             foreach (var item in Repairs)
             {
-                repairBox.Items.Add(item.Cost);
+                repairBox.Items.Add(item.Problem);
             }
             repairBox.SelectedIndex = 0;
         }
@@ -217,32 +218,25 @@ namespace CarsShowroom
         private void idTypeMaintenanceCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idTypeMaintenanceCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void idRepairCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idRepairCheck.IsChecked == false)
-                dataGrid.Columns[5].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[5].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void idEmployeeCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idEmployeeCheck.IsChecked == false)
-                dataGrid.Columns[7].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[7].Visibility = Visibility.Visible;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.Columns[2].Visibility = Visibility.Hidden;
-            dataGrid.Columns[4].Visibility = Visibility.Hidden;
-            dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
     }
 }

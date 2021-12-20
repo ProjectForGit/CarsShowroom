@@ -27,17 +27,23 @@ namespace CarsShowroom
         {
             InitializeComponent();
             Get();
+
+            ((MainWindow)System.Windows.Application.Current.MainWindow).exitIcon.Visibility = Visibility.Hidden;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in Items)
+            if (Validation() == true)
             {
-                if (loginTxt.Text == item.Login && MD5(passwordTxt.Text) == item.Password)
+                foreach (var item in Items)
                 {
-                    MainWindow.MainFrameInstance.Navigate(new MainPage());
+                    if (loginTxt.Text == item.Login && MD5(passwordTxt.Password) == item.Password)
+                    {
+                        CheckRole(item.Role);
+                    }
                 }
             }
+            
         }
 
         private void Get()
@@ -76,6 +82,146 @@ namespace CarsShowroom
                 hash += string.Format("{0:x2}", b);
 
             return hash;
+        }
+
+        private bool Validation()
+        {
+            bool valid = true;
+            if (loginTxt.Text == "" || passwordTxt.Password == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
+            }
+            
+            
+            return valid;
+        }
+
+
+        public void CheckRole(string role)
+        {
+            ((MainWindow)Application.Current.MainWindow).employeeButton.Margin = new Thickness(0, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).positionButton.Margin = new Thickness(130, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).carButton.Margin = new Thickness(260, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).markButton.Margin = new Thickness(390, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).typeButton.Margin = new Thickness(520, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).awardButton.Margin = new Thickness(650, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).vacationButton.Margin = new Thickness(780, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).typeVacationButton.Margin = new Thickness(910, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Margin = new Thickness(1040, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).maintenanceButton.Margin = new Thickness(1170, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).repairButton.Margin = new Thickness(1300, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).accessoryButton.Margin = new Thickness(1430, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).colorButton.Margin = new Thickness(1575, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).shippingButton.Margin = new Thickness(1705, 0, 0, 0);
+            ((MainWindow)Application.Current.MainWindow).orderButton.Margin = new Thickness(1810, 0, 0, 0);
+
+
+
+            ((MainWindow)Application.Current.MainWindow).orderButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).carButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).markButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).typeButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).employeeButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).positionButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).awardButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).vacationButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).maintenanceButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).repairButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).colorButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).shippingButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).accessoryButton.Visibility = Visibility.Hidden;
+            ((MainWindow)Application.Current.MainWindow).typeVacationButton.Visibility = Visibility.Hidden;
+
+            if (role == "Администратор")
+            {
+                ((MainWindow)Application.Current.MainWindow).orderButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).carButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).markButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).employeeButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).positionButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).awardButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).vacationButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).maintenanceButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).repairButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).colorButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).shippingButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).accessoryButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeVacationButton.Visibility = Visibility.Visible;
+
+                MainWindow.MainFrameInstance.Navigate(new MainPage());
+            }
+            if (role == "Менеджер")
+            {
+                ((MainWindow)Application.Current.MainWindow).orderButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).carButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).markButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeButton.Visibility = Visibility.Visible;
+
+                ((MainWindow)Application.Current.MainWindow).orderButton.Margin = new Thickness(0,0,0,0);
+                ((MainWindow)Application.Current.MainWindow).carButton.Margin = new Thickness(130, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).markButton.Margin = new Thickness(260, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).typeButton.Margin = new Thickness(390, 0, 0, 0);
+
+                MainWindow.MainFrameInstance.Navigate(new OrderPage());
+            }
+            else if (role == "Бухгалтер")
+            {
+                ((MainWindow)Application.Current.MainWindow).awardButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).vacationButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeVacationButton.Visibility = Visibility.Visible;
+
+                ((MainWindow)Application.Current.MainWindow).awardButton.Margin = new Thickness(0, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).vacationButton.Margin = new Thickness(130, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).typeVacationButton.Margin = new Thickness(260, 0, 0, 0);
+
+                MainWindow.MainFrameInstance.Navigate(new AwardPage());
+            }
+            else if (role == "Механик")
+            {
+
+                ((MainWindow)Application.Current.MainWindow).maintenanceButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).repairButton.Visibility = Visibility.Visible;
+
+                ((MainWindow)Application.Current.MainWindow).maintenanceButton.Margin = new Thickness(0, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Margin = new Thickness(130, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).repairButton.Margin = new Thickness(260, 0, 0, 0);
+
+                MainWindow.MainFrameInstance.Navigate(new MaintenancePage());
+            }
+            else if (role == "Кладовщик")
+            {
+
+                ((MainWindow)Application.Current.MainWindow).accessoryButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).colorButton.Visibility = Visibility.Visible;
+                ((MainWindow)Application.Current.MainWindow).shippingButton.Visibility = Visibility.Visible;
+
+                ((MainWindow)Application.Current.MainWindow).accessoryButton.Margin = new Thickness(0, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).colorButton.Margin = new Thickness(130, 0, 0, 0);
+                ((MainWindow)Application.Current.MainWindow).shippingButton.Margin = new Thickness(260, 0, 0, 0);
+
+
+                ((MainWindow)Application.Current.MainWindow).employeeButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).positionButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).carButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).markButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).typeButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).awardButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).vacationButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).typeMaintenanceButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).maintenanceButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).repairButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).orderButton.Visibility = Visibility.Hidden;
+                ((MainWindow)Application.Current.MainWindow).typeVacationButton.Visibility = Visibility.Hidden;
+
+                MainWindow.MainFrameInstance.Navigate(new AccessoryPage());
+            }
         }
     }
 }

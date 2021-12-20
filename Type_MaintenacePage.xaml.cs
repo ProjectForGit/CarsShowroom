@@ -76,35 +76,38 @@ namespace CarsShowroom
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/TypeMaintenances"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            TypeMaintenance typeMaintenance = new TypeMaintenance
+            if (Validation() == true)
             {
-                Name = nameTxt.Text,
-                Cost = int.Parse(costTxt.Text),
-                Duration = int.Parse(durationTxt.Text)
-            };
-            Items.Add(typeMaintenance);
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/TypeMaintenances"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                TypeMaintenance typeMaintenance = new TypeMaintenance
+                {
+                    Name = nameTxt.Text,
+                    Cost = int.Parse(costTxt.Text),
+                    Duration = int.Parse(durationTxt.Text)
+                };
+                Items.Add(typeMaintenance);
 
 
 
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(typeMaintenance);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(typeMaintenance);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-
-            Get();
         }
 
         private void PUT(TypeMaintenance typeMaintenance)
@@ -137,28 +140,49 @@ namespace CarsShowroom
             }
         }
 
+        private bool Validation()
+        {
+            bool valid = true;
+            if (nameTxt.Text == "" || costTxt.Text == "" || durationTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)) || !costTxt.Text.ToCharArray().All(x => Char.IsDigit(x)) || !durationTxt.Text.ToCharArray().All(x => Char.IsDigit(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
+            }
+
+            return valid;
+        }
+
         private void nameCheck_Click(object sender, RoutedEventArgs e)
         {
             if (nameCheck.IsChecked == false)
-                dataGrid.Columns[2].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[2].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void costCheck_Click(object sender, RoutedEventArgs e)
         {
             if (costCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void durationCheck_Click(object sender, RoutedEventArgs e)
         {
             if (durationCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
     }
 }

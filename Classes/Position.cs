@@ -13,6 +13,7 @@ namespace CarsShowroom.Classes
         private int salary;
 
         public int PositionId { get; set; }
+
         public string Name
         {
             get => name; set

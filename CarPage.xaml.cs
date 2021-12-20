@@ -53,6 +53,13 @@ namespace CarsShowroom
 
             Items = JsonConvert.DeserializeObject<List<Classes.Car>>(jsonString);
             dataGrid.ItemsSource = Items;
+            foreach (var item in Items)
+            {
+                item.PropertyChanged += delegate
+                {
+                    PUT(item);
+                };
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -149,152 +156,205 @@ namespace CarsShowroom
             colorBox.SelectedIndex = 0;
         }
 
+        private void PUT(Car car)
+        {
+            try
+            {
+                int id = Items[dataGrid.SelectedIndex].CarId;
+
+
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Cars/" + id));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "PUT";
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(car);
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Cars"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            string markTxt = markBox.SelectedItem.ToString();
-            int idMark = 0;
-            foreach (var item in Marks)
+            if (Validation() == true)
             {
-                if (item.Name == markTxt)
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Cars"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                string markTxt = markBox.SelectedItem.ToString();
+                int idMark = 0;
+                foreach (var item in Marks)
                 {
-                    idMark = item.MarkId;
+                    if (item.Name == markTxt)
+                    {
+                        idMark = item.MarkId;
+                    }
                 }
-            }
 
-            string typeTxt = typeBox.SelectedItem.ToString();
-            int idType = 0;
-            foreach (var item in Types)
-            {
-                if (item.Name == typeTxt)
+                string typeTxt = typeBox.SelectedItem.ToString();
+                int idType = 0;
+                foreach (var item in Types)
                 {
-                    idType = item.TypeId;
+                    if (item.Name == typeTxt)
+                    {
+                        idType = item.TypeId;
+                    }
                 }
-            }
 
-            string colorTxt = colorBox.SelectedItem.ToString();
-            int idColor = 0;
-            foreach (var item in Colors)
-            {
-                if (item.Name == colorTxt)
+                string colorTxt = colorBox.SelectedItem.ToString();
+                int idColor = 0;
+                foreach (var item in Colors)
                 {
-                    idColor = item.ColorId;
+                    if (item.Name == colorTxt)
+                    {
+                        idColor = item.ColorId;
+                    }
                 }
+
+                Car car = new Car
+                {
+                    MarkId = idMark,
+                    Name = nameTxt.Text,
+                    TypeId = idType,
+                    Cost = int.Parse(costTxt.Text),
+                    Year = yearDate.SelectedDate.Value,
+                    ColorId = idColor,
+                    Gearbox = gearboxTxt.Text,
+                    MaxSpeed = int.Parse(maxSpeedTxt.Text),
+                    Weight = int.Parse(weightTxt.Text)
+                };
+                Items.Add(car);
+
+
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(car);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
+            }
+        }
+
+        private bool Validation()
+        {
+            bool valid = true;
+            if (nameTxt.Text == "" || costTxt.Text == "" || gearboxTxt.Text == "" || maxSpeedTxt.Text == "" || weightTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!nameTxt.Text.ToCharArray().All(x => Char.IsLetter(x)) || !costTxt.Text.ToCharArray().All(x => Char.IsDigit(x)) || !gearboxTxt.Text.ToCharArray().All(x => Char.IsLetter(x)) || !maxSpeedTxt.Text.ToCharArray().All(x => Char.IsDigit(x)) || !weightTxt.Text.ToCharArray().All(x => Char.IsDigit(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
             }
 
-            Car car = new Car
-            {
-                MarkId = idMark,
-                Name = nameTxt.Text,
-                TypeId = idType,
-                Cost = int.Parse(costTxt.Text),
-                Year = yearDate.SelectedDate.Value,
-                ColorId = idColor,
-                Gearbox = gearboxTxt.Text,
-                MaxSpeed = int.Parse(maxSpeedTxt.Text),
-                Weight = int.Parse(weightTxt.Text)
-            };
-            Items.Add(car);
-
-
-
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(car);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-            }
-
-            Get();
+            return valid;
         }
 
         private void idMarkCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idMarkCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void nameCheck_Click(object sender, RoutedEventArgs e)
         {
             if (nameCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void idTypeCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idTypeCheck.IsChecked == false)
-                dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[6].Visibility = Visibility.Visible;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
 
         private void CostCheck_Click(object sender, RoutedEventArgs e)
         {
             if (costCheck.IsChecked == false)
-                dataGrid.Columns[7].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[7].Visibility = Visibility.Visible;
+                dataGrid.Columns[3].Visibility = Visibility.Visible;
         }
 
         private void yearCheck_Click(object sender, RoutedEventArgs e)
         {
             if (yearCheck.IsChecked == false)
-                dataGrid.Columns[8].Visibility = Visibility.Hidden;
+                dataGrid.Columns[4].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[8].Visibility = Visibility.Visible;
+                dataGrid.Columns[4].Visibility = Visibility.Visible;
         }
 
         private void idColorCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idColorCheck.IsChecked == false)
-                dataGrid.Columns[10].Visibility = Visibility.Hidden;
+                dataGrid.Columns[5].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[10].Visibility = Visibility.Visible;
+                dataGrid.Columns[5].Visibility = Visibility.Visible;
         }
 
         private void gearboxCheck_Click(object sender, RoutedEventArgs e)
         {
             if (gearboxCheck.IsChecked == false)
-                dataGrid.Columns[11].Visibility = Visibility.Hidden;
+                dataGrid.Columns[6].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[11].Visibility = Visibility.Visible;
+                dataGrid.Columns[6].Visibility = Visibility.Visible;
         }
 
         private void maxSpeedCheck_Click(object sender, RoutedEventArgs e)
         {
             if (maxSpeedCheck.IsChecked == false)
-                dataGrid.Columns[12].Visibility = Visibility.Hidden;
+                dataGrid.Columns[7].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[12].Visibility = Visibility.Visible;
+                dataGrid.Columns[7].Visibility = Visibility.Visible;
         }
 
         private void weightCheck_Click(object sender, RoutedEventArgs e)
         {
             if (weightCheck.IsChecked == false)
-                dataGrid.Columns[13].Visibility = Visibility.Hidden;
+                dataGrid.Columns[8].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[13].Visibility = Visibility.Visible;
+                dataGrid.Columns[8].Visibility = Visibility.Visible;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void diagramButton_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.Columns[2].Visibility = Visibility.Hidden;
-            dataGrid.Columns[5].Visibility = Visibility.Hidden;
-            dataGrid.Columns[9].Visibility = Visibility.Hidden;
+            DiagramWindow diagramWindow = new DiagramWindow();
+            diagramWindow.Show();
         }
     }
 }

@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CarsShowroom
 {
@@ -19,6 +18,7 @@ namespace CarsShowroom
     {
 
         public static Frame MainFrameInstance;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,89 +27,84 @@ namespace CarsShowroom
             MainFrame.Navigate(new LoginPage());
         }
 
-        private void TextBlock_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new MainPage());
         }
 
-        private void Position_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new PositionPage());
         }
 
-        private void Car_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new CarPage());
         }
-        private void Mark_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new MarkPage());
         }
 
-        private void Type_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_4(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new TypePage());
         }
 
-        private void Award_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new AwardPage());
         }
 
-        private void Vacation_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new VacationPage());
         }
 
-        private void Type_Vacation_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_7(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new TypeVacationPage());
         }
 
-        private void Type_Maintenance_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_8(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new Type_MaintenacePage());
         }
 
-        private void Repair_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            MainWindow.MainFrameInstance.Navigate(new MaintenancePage());
+        }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new RepairPage());
         }
 
-        private void Accessory_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_11(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new AccessoryPage());
         }
 
-        private void Color_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_12(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new ColorPage());
         }
 
-        private void Shippping_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_13(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new ShippingPage());
         }
 
-        private void Maintenance_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindow.MainFrameInstance.Navigate(new MaintenancePage());
-        }
-
-        private void Order_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_14(object sender, RoutedEventArgs e)
         {
             MainWindow.MainFrameInstance.Navigate(new OrderPage());
         }
 
-        private void Employees_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void exitIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindow.MainFrameInstance.Navigate(new MainPage());
+            MainWindow.MainFrameInstance.Navigate(new LoginPage());
         }
-
-        private void Maintenace_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindow.MainFrameInstance.Navigate(new MaintenancePage());
-        }
-
     }
 }

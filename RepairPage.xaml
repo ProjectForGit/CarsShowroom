@@ -3,30 +3,38 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:CarsShowroom"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="RepairPage" Loaded="Page_Loaded">
+      Title="RepairPage">
 
     <Grid>
         <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Ремонт</TextBlock>
-        <ComboBox x:Name="accessoryBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="costTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></TextBox>
-        <DatePicker x:Name="receiptDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></DatePicker>
-        <DatePicker x:Name="issueDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="820,200,0,0" FontSize="25" Width="200"></DatePicker>
-        <TextBox x:Name="problemTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1040,200,0,0" FontSize="25" Width="200"></TextBox>
-        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
-        <CheckBox x:Name="idAccessoryCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,38,0" FontSize="25" IsChecked="True" Click="idAccessoryCheck_Click">Комплектующие</CheckBox>
-        <CheckBox x:Name="costCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,63,0" FontSize="25"  IsChecked="True" Click="costCheck_Click" Width="185">Стоимость</CheckBox>
-        <CheckBox x:Name="receiptDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,63,0" FontSize="25"  IsChecked="True" Click="receiptDateCheck_Click" Width="186">Дата приема</CheckBox>
-        <CheckBox x:Name="issueDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,63,0" FontSize="25"  IsChecked="True" Click="issueDateCheck_Click" Width="185">Дата выдачи</CheckBox>
-        <CheckBox x:Name="problemCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,63,0" FontSize="25"  IsChecked="True" Click="problemCheck_Click" Width="185">Проблема</CheckBox>
-        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+        <ComboBox x:Name="accessoryBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="60,300,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="costTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Стоимость" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <DatePicker x:Name="receiptDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="540,300,0,0" FontSize="25" Width="200"></DatePicker>
+        <DatePicker x:Name="issueDate" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="780,300,0,0" FontSize="25" Width="200"></DatePicker>
+        <TextBox x:Name="problemTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="1020,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Проблема" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1260,300,0,0" FontSize="25" Click="Add_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Добавить</Button>
+        <CheckBox x:Name="idAccessoryCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,38,0" FontSize="25" IsChecked="True" Click="idAccessoryCheck_Click" Background="#3943B7">Комплектующие</CheckBox>
+        <CheckBox x:Name="costCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,63,0" FontSize="25"  IsChecked="True" Click="costCheck_Click" Width="185" Background="#3943B7">Стоимость</CheckBox>
+        <CheckBox x:Name="receiptDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,63,0" FontSize="25"  IsChecked="True" Click="receiptDateCheck_Click" Width="186" Background="#3943B7">Дата приема</CheckBox>
+        <CheckBox x:Name="issueDateCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,500,63,0" FontSize="25"  IsChecked="True" Click="issueDateCheck_Click" Width="185" Background="#3943B7">Дата выдачи</CheckBox>
+        <CheckBox x:Name="problemCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,550,63,0" FontSize="25"  IsChecked="True" Click="problemCheck_Click" Width="185" Background="#3943B7">Проблема</CheckBox>
+        <Button x:Name="restoreButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1465,300,0,0" FontSize="25" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Восстановить</Button>
+
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="600" Margin="0,350,200,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Комплектующие" Binding="{Binding Accessory}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Cost}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата приема" Binding="{Binding ReceiptDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата выдачи" Binding="{Binding IssueDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Проблема" Binding="{Binding Problem}"></DataGridTextColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="Delete">Удалить</Button>
+                            <Button Click="Delete" Background="Red" BorderBrush="Red" Opacity=".5">Удалить</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

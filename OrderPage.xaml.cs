@@ -31,6 +31,7 @@ namespace CarsShowroom
             Get();
             GetCarBox();
             GetEmployeeBox();
+            ((MainWindow)System.Windows.Application.Current.MainWindow).exitIcon.Visibility = Visibility.Visible;
         }
 
         private void Get()
@@ -51,6 +52,13 @@ namespace CarsShowroom
 
             Items = JsonConvert.DeserializeObject<List<Classes.Order>>(jsonString);
             dataGrid.ItemsSource = Items;
+            foreach (var item in Items)
+            {
+                item.PropertyChanged += delegate
+                {
+                    PUT(item);
+                };
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -121,6 +129,36 @@ namespace CarsShowroom
             employeeBox.SelectedIndex = 0;
         }
 
+        private void PUT(Order order)
+        {
+            try
+            {
+                int id = Items[dataGrid.SelectedIndex].IdOrder;
+
+
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Orders/" + id));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "PUT";
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(order);
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Orders"));
@@ -177,31 +215,25 @@ namespace CarsShowroom
         private void idCarCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idCarCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void idEmployeeCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idEmployeeCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void dateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (dateCheck.IsChecked == false)
-                dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[6].Visibility = Visibility.Visible;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.Columns[2].Visibility = Visibility.Hidden;
-            dataGrid.Columns[5].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
     }
 }

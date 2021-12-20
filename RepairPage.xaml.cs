@@ -50,6 +50,13 @@ namespace CarsShowroom
 
             Items = JsonConvert.DeserializeObject<List<Classes.Repair>>(jsonString);
             dataGrid.ItemsSource = Items;
+            foreach (var item in Items)
+            {
+                item.PropertyChanged += delegate
+                {
+                    PUT(item);
+                };
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -97,94 +104,143 @@ namespace CarsShowroom
             issueDate.SelectedDate = DateTime.Now;
         }
 
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void PUT(Repair repair)
         {
-            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Repairs"));
-            WebReq.ContentType = "application/json; charset=utf-8";
-            WebReq.Accept = "application/json; charset=utf-8";
-            WebReq.Method = "POST";
-
-            string accessoryTxt = accessoryBox.SelectedItem.ToString();
-            int idAccessory = 0;
-            foreach (var item in Accessories)
+            try
             {
-                if (item.Name == accessoryTxt)
+                int id = Items[dataGrid.SelectedIndex].RepairId;
+
+
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Repairs/" + id));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "PUT";
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
                 {
-                    idAccessory = item.AccessoryId;
+                    string json = JsonConvert.SerializeObject(repair);
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
                 }
             }
-
-            Repair repair = new Repair
+            catch
             {
-                AccessoryId = idAccessory,
-                Cost = int.Parse(costTxt.Text),
-                ReceiptDate = receiptDate.SelectedDate.Value,
-                IssueDate = issueDate.SelectedDate.Value,
-                Problem = problemTxt.Text
-            };
-            Items.Add(repair);
 
-
-
-            using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
-            {
-                string json = JsonConvert.SerializeObject(repair);
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
             }
-            var httpResponse = (HttpWebResponse)WebReq.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validation() == true)
             {
-                var result = streamReader.ReadToEnd();
+                HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://localhost:44387/api/Repairs"));
+                WebReq.ContentType = "application/json; charset=utf-8";
+                WebReq.Accept = "application/json; charset=utf-8";
+                WebReq.Method = "POST";
+
+                string accessoryTxt = accessoryBox.SelectedItem.ToString();
+                int idAccessory = 0;
+                foreach (var item in Accessories)
+                {
+                    if (item.Name == accessoryTxt)
+                    {
+                        idAccessory = item.AccessoryId;
+                    }
+                }
+
+                Repair repair = new Repair
+                {
+                    AccessoryId = idAccessory,
+                    Cost = int.Parse(costTxt.Text),
+                    ReceiptDate = receiptDate.SelectedDate.Value,
+                    IssueDate = issueDate.SelectedDate.Value,
+                    Problem = problemTxt.Text
+                };
+                Items.Add(repair);
+
+
+
+                using (var streamWriter = new StreamWriter(WebReq.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(repair);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)WebReq.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+
+                Get();
+            }
+        }
+
+        private bool Validation()
+        {
+            bool valid = true;
+            if (costTxt.Text == "" || problemTxt.Text == "")
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Необходимо заполнить все поля";
+                errorWindow.Show();
+            }
+            else if (!costTxt.Text.ToCharArray().All(x => Char.IsDigit(x)) || !problemTxt.Text.ToCharArray().All(x => Char.IsLetter(x)))
+            {
+                valid = false;
+                ErrorWindow errorWindow = new ErrorWindow();
+                errorWindow.errorText.Text = "Данные заполнены неверно";
+                errorWindow.Show();
             }
 
-            Get();
+            return valid;
         }
 
         private void idAccessoryCheck_Click(object sender, RoutedEventArgs e)
         {
             if (idAccessoryCheck.IsChecked == false)
-                dataGrid.Columns[3].Visibility = Visibility.Hidden;
+                dataGrid.Columns[0].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[3].Visibility = Visibility.Visible;
+                dataGrid.Columns[0].Visibility = Visibility.Visible;
         }
 
         private void costCheck_Click(object sender, RoutedEventArgs e)
         {
             if (costCheck.IsChecked == false)
-                dataGrid.Columns[4].Visibility = Visibility.Hidden;
+                dataGrid.Columns[1].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[4].Visibility = Visibility.Visible;
+                dataGrid.Columns[1].Visibility = Visibility.Visible;
         }
 
         private void receiptDateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (receiptDateCheck.IsChecked == false)
-                dataGrid.Columns[5].Visibility = Visibility.Hidden;
+                dataGrid.Columns[2].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[5].Visibility = Visibility.Visible;
+                dataGrid.Columns[2].Visibility = Visibility.Visible;
         }
 
         private void issueDateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (issueDateCheck.IsChecked == false)
-                dataGrid.Columns[6].Visibility = Visibility.Hidden;
+                dataGrid.Columns[3].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[6].Visibility = Visibility.Visible;
+                dataGrid.Columns[3].Visibility = Visibility.Visible;
         }
 
         private void problemCheck_Click(object sender, RoutedEventArgs e)
         {
             if (problemCheck.IsChecked == false)
-                dataGrid.Columns[7].Visibility = Visibility.Hidden;
+                dataGrid.Columns[4].Visibility = Visibility.Hidden;
             else
-                dataGrid.Columns[7].Visibility = Visibility.Visible;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            dataGrid.Columns[2].Visibility = Visibility.Hidden;
+                dataGrid.Columns[4].Visibility = Visibility.Visible;
         }
     }
 }

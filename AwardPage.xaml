@@ -1,28 +1,34 @@
 ﻿<Page x:Class="CarsShowroom.AwardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CarsShowroom"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="AwardPage" Loaded="Page_Loaded">
+      Title="AwardPage">
 
     <Grid>
         <TextBlock VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" FontSize="40">Премии</TextBlock>
-        <ComboBox x:Name="employeeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,200,0,0" FontSize="25" Width="200"></ComboBox>
-        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="380,200,0,0" FontSize="25" Width="200"></TextBox>
-        <TextBox x:Name="salaryAddTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="600,200,0,0" FontSize="25" Width="200"></TextBox>
-        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,280,0,0" FontSize="25" Width="100" Click="Add_Click">+</Button>
-        <CheckBox x:Name="idEmployeeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Width="195" Click="idEmployeeCheck_Click">Сотрудник</CheckBox>
-        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,89,0" FontSize="25"  IsChecked="True" Width="167" Click="nameCheck_Click">Название</CheckBox>
-        <CheckBox x:Name="salaryAddCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,10,0" FontSize="25"  IsChecked="True" Width="245" Click="salaryAddCheck_Click">Добавка к зарплате</CheckBox>
-        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="700" Margin="0,350,200,0">
+        <ComboBox x:Name="employeeBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="60,300,0,0" FontSize="25" Width="200"></ComboBox>
+        <TextBox x:Name="nameTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="300,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Название" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <TextBox x:Name="salaryAddTxt" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Margin="540,300,0,0" FontSize="25" Width="200" materialDesign:HintAssist.Hint="Добавка к зарплате" materialDesign:TextFieldAssist.UnderlineBrush="#3943B7"></TextBox>
+        <Button x:Name="Add" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="780,300,0,0" FontSize="25" Click="Add_Click" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Добавить</Button>
+        <CheckBox x:Name="idEmployeeCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,350,60,0" FontSize="25" IsChecked="True" Width="195" Click="idEmployeeCheck_Click" Background="#3943B7">Сотрудник</CheckBox>
+        <CheckBox x:Name="nameCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,400,89,0" FontSize="25"  IsChecked="True" Width="167" Click="nameCheck_Click" Background="#3943B7">Название</CheckBox>
+        <CheckBox x:Name="salaryAddCheck" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,450,10,0" FontSize="25"  IsChecked="True" Width="245" Click="salaryAddCheck_Click" Background="#3943B7">Добавка к зарплате</CheckBox>
+        <Button x:Name="restoreButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1465,300,0,0" FontSize="25" Background="#3943B7" BorderBrush="#3943B7" Height="Auto" Width="Auto">Восстановить</Button>
+
+        <DataGrid x:Name="dataGrid" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Height="600" Margin="0,350,200,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Добавка к зарплате" Binding="{Binding SalaryAdd}"></DataGridTextColumn>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="Delete">Удалить</Button>
+                            <Button Click="Delete" Background="Red" BorderBrush="Red" Opacity=".5">Удалить</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
